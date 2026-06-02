@@ -1,0 +1,25 @@
+---
+title: "Homework 3 - Reading and Manipulating Data"
+format: html
+editor: visual
+---
+
+# Task 1: Conceptual Questions
+
+### Question 1
+
+### Question 2
+
+### Question 3
+
+### Question 4
+
+### Question 5
+
+### Question 6
+
+# Task 2: Reading Delimited Data
+
+# Task 3: Combining Excel and Delimited Data
+
+# Task 4: Database Practice
