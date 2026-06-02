@@ -11,25 +11,57 @@ author: Evan Whitfield, Ryan Friedman, Ralph Church
 
 **If your working directory is myfolder/homework/, what relative path would you specify to get the file located at myfolder/MyData.csv?**
 
+../MyData.csv
+
 #### Question 2
 
 **What are the major benefits of using R projects?**
+
+R projects provide a way to divide your work. Each with their own:
+
+Working directory Workspace (environment with stored data/objects) History Folder structure & source documents
+
+It is very easy to connect with GitHub for version control and collaboration.
 
 #### Question 3
 
 **What is Git and what is GitHub?**
 
+Git is a version control system. GitHub is a hosting service that provides a home for our Git based projects.
+
 #### Question 4
 
 **What are the two main differences between a `tibble` and a `data.frame`?**
+
+Tibbles print cleaner and usual return a tibble when you subset them. This makes them easier to chain.
+
+Data frames try to print everything by default, but usually try to print out a vector, making them not print results as cleanly. Also, not easily chain-able.
 
 #### Question 5
 
 **Rewrite the following nested function call using baseR’s chaining operator:**
 
+``` r
+library(tidyverse)
+arrange(filter(select(as_tibble(iris), starts_with("Petal"), Species), Petal.Length < 1.55), Species)
+```
+
+Answer:
+``` r
+as_tibble(iris) |>
+  select(starts_with("Petal"), Species) |>
+  filter(Petal.Length < 1.55) |>
+  arrange(Species)
+```
+
 #### Question 6
 
 **What is meant by long format data and wide format data? Which do we generally prefer for statistical analysis?**
+
+Long format - Each row is a single observation
+Wide format - Each row is a subject, different columns are different observations
+
+For statistical analysis, we perfer long form as it is much easier to work with for modeling and is more flexible. It is also easier to group and summarize.
 
 ## Task 2: Reading Delimited Data
 
