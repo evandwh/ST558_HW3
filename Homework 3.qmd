@@ -2,24 +2,37 @@
 title: "Homework 3 - Reading and Manipulating Data"
 format: html
 editor: visual
+author: Evan Whitfield, Ryan Friedman, Ralph Church
 ---
 
-# Task 1: Conceptual Questions
+## Task 1: Conceptual Questions
 
-### Question 1
+#### Question 1
 
-### Question 2
+**If your working directory is myfolder/homework/, what relative path would you specify to get the file located at myfolder/MyData.csv?**
 
-### Question 3
+#### Question 2
 
-### Question 4
+**What are the major benefits of using R projects?**
 
-### Question 5
+#### Question 3
 
-### Question 6
+**What is Git and what is GitHub?**
 
-# Task 2: Reading Delimited Data
+#### Question 4
 
-# Task 3: Combining Excel and Delimited Data
+**What are the two main differences between a `tibble` and a `data.frame`?**
 
-# Task 4: Database Practice
+#### Question 5
+
+**Rewrite the following nested function call using baseR’s chaining operator:**
+
+#### Question 6
+
+**What is meant by long format data and wide format data? Which do we generally prefer for statistical analysis?**
+
+## Task 2: Reading Delimited Data
+
+## Task 3: Combining Excel and Delimited Data
+
+## Task 4: Database Practice
