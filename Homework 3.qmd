@@ -65,6 +65,49 @@ For statistical analysis, we perfer long form as it is much easier to work with 
 
 ## Task 2: Reading Delimited Data
 
+We will start with Glass Data. When the data were viewed, it is shown to be delimited by a comma.
+
+
+#### Glass Data
+```{r}
+library(readr)
+library(tidyverse)
+glass_data <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/glass.data",
+                       col_names = c("ID",
+                                     "RI", 
+                                     "Na", 
+                                     "Mg",
+                                     "Al",
+                                     "Si",
+                                     "K",
+                                     "Ca",
+                                     "Ba",
+                                     "Fe",
+                                     "Type_of_Glass")
+)
+glass_data
+```
+
+```{r}
+glass_data |> 
+  mutate(
+    Type_of_Glass = factor(
+      recode(
+        Type_of_Glass,
+        '1' = "building_windows_float_processed",
+        '2' = "building_windows_not_float_processed",
+        '3' = "vehicle_windows_float_processed",
+        '4' = "vehicle_windows_not_float_processed",
+        '5' = "containers",
+        '6' = "tableware",
+        '7' = "headlamps"
+      )
+    )
+  ) |>
+  filter(Fe < 0.2, Type_of_Glass %in% c("tableware","headlamps"))
+```
+
+
 ## Task 3: Combining Excel and Delimited Data
 
 ## Task 4: Database Practice
