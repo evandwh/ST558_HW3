@@ -1,0 +1,67 @@
+---
+title: "Homework 3 - Reading and Manipulating Data"
+format: html
+editor: visual
+author: Evan Whitfield, Ryan Friedman, Ralph Church
+---
+
+## Task 1: Conceptual Questions
+
+##### Exam Practice Questions
+
+1. If your working directory is `myfolder/homework/`, what relative path would you specify to access the file located at `myfolder/MyData.csv`?
+
+   **Answer:** `../MyData.csv`
+
+   Explanation:
+   - `..` moves up one directory level from `homework/` to `myfolder/`.
+   - `MyData.csv` is located directly inside `myfolder/`.
+   
+2. What are the major benefits of using R Projects?
+
+   **Answer:**
+   - Automatically sets the working directory.
+   - Keeps project files organized.
+   - Makes relative paths easier to use.
+   - Improves reproducibility and collaboration.
+
+3. What is Git and what is GitHub?
+
+   **Answer:**
+   - **Git** is a version control system used to track changes to files and code.
+   - **GitHub** is a cloud platform that hosts Git repositories and enables collaboration.
+
+4. What are the two main differences between a tibble and a data.frame?
+
+   **Answer:** 
+   - Tibbles print only a preview of the data instead of the entire object. 
+   - Tibbles are more strict ("lazy and surly"), doing less automatic conversion and forcing you to address problems     earlier.
+
+5. Rewrite the following nested function call using baseR’s chaining operator:
+
+```{r}
+library(tidyverse)
+arrange(filter(select(as_tibble(iris), starts_with("Petal"), Species), Petal.Length <
+1.55), Species)
+
+as_tibble(iris) |>
+  select(starts_with("Petal"), Species) |>
+  filter(Petal.Length < 1.55) |>
+  arrange(Species)
+```
+
+
+6. What is meant by long format data and wide format data? Which do we generally prefer for statistical analysis?
+
+   **Answer:**
+
+   - **Long format:** Each row consists of one observation and each column one variable.
+   - **Wide format:** More than one observation may exist in a given row.
+
+   Wide format data is often used in pivot tables and can be easier to display. However, long format data is generally preferred for statistical analysis because most plotting, summarizing, and modeling tools expect data to be in long form.
+
+## Task 2: Reading Delimited Data
+
+## Task 3: Combining Excel and Delimited Data
+
+## Task 4: Database Practice
