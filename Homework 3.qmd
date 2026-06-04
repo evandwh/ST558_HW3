@@ -69,9 +69,15 @@ We will start with Glass Data. When the data were viewed, it is shown to be deli
 
 
 #### Glass Data
+First we need to read in the tidyverse package to be prepared to read in our data as nice tibbles.
 ```{r}
-library(readr)
+#| message: false
+#| warning: false
 library(tidyverse)
+```
+
+Now, let's read in our comma separated data and assign column names in the process
+```{r}
 glass_data <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/glass.data",
                        col_names = c("ID",
                                      "RI", 
@@ -105,6 +111,29 @@ glass_data |>
     )
   ) |>
   filter(Fe < 0.2, Type_of_Glass %in% c("tableware","headlamps"))
+```
+
+#### Yeast Data
+```{r}
+#| results: hide
+#| message: false
+yeast_data <- read_table(
+  "https://www4.stat.ncsu.edu/online/datasets/yeast.data",
+  col_names = c("seq_name", 
+                "mcg", 
+                "gvh", 
+                "alm", 
+                "mit", 
+                "erl", 
+                "pox",
+                "vac", 
+                "nuc", 
+                "class")
+)
+```
+
+```{r}
+yeast_data
 ```
 
 
