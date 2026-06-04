@@ -89,10 +89,32 @@ glass_data <- glass_data |>
         `7` = "headlamps"
       )
     )
-  )
+  ) |>
+  filter(
+  Fe < 0.2 &
+  (Type_of_glass == "tableware" |
+   Type_of_glass == "headlamps")
+)
 
 class(glass_data$Type_of_glass)
+
+print(glass_data)
   
+```
+
+##### Yeast data:
+
+```{r}
+yeast_data <- read_delim("https://www4.stat.ncsu.edu/~online/datasets/yeast.data", 
+                       delim = "  ",
+                       col_names = c("seq_name", "mcg", "gvh", "alm", "mit", "erl", "pox", "vac", "nuc", "class"))
+                       
+yeast_data <- yeast_data |>
+  select(-c(seq_name, nuc)) |>
+  group_by(class) |>
+  mutate(across(where(is.numeric), list(mean = mean, median = median), .names = "{.col}_{.fn}"))
+
+print(yeast_data)
 ```
 
 
