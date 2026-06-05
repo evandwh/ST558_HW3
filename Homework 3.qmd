@@ -75,6 +75,7 @@ First we need to read in the tidyverse package to be prepared to read in our dat
 #| message: false
 #| warning: false
 library(tidyverse)
+library(readxl)
 ```
 
 Now, let's read in our comma separated data and assign column names in the process
@@ -147,5 +148,27 @@ yeast_data |>
 ```
 
 ## Task 3: Combining Excel and Delimited Data
+```{r}
+white_wine_data <- read_excel("white-wine.xlsx", 
+                              sheet = excel_sheets("white-wine.xlsx")[1],
+                            col_names = TRUE)
+```
+
+```{r}
+white_wine_data
+```
+
+
+```{r}
+white_wine_colnames <- read_excel("white-wine.xlsx", 
+                              sheet = excel_sheets("white-wine.xlsx")[2])
+white_wine_colnames
+```
+
+```{r}
+colnames(white_wine_data) <- unlist(white_wine_colnames[,1])
+white_wine_data
+```
+
 
 ## Task 4: Database Practice
