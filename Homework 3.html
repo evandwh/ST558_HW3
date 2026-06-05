@@ -273,6 +273,32 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 # ℹ 1,474 more rows</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>yeast_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">"seq_name"</span>, <span class="sc">-</span><span class="st">"nuc"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">median =</span> median), <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,484 × 22
+# Groups:   class [10]
+     mcg   gvh   alm   mit   erl   pox   vac class mcg_mean mcg_median gvh_mean
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1  0.58  0.61  0.47  0.13   0.5   0    0.48 MIT      0.521       0.51    0.533
+ 2  0.43  0.67  0.48  0.27   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 3  0.64  0.62  0.49  0.15   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 4  0.58  0.44  0.57  0.13   0.5   0    0.54 NUC      0.452       0.45    0.456
+ 5  0.42  0.44  0.48  0.54   0.5   0    0.48 MIT      0.521       0.51    0.533
+ 6  0.51  0.4   0.56  0.17   0.5   0.5  0.49 CYT      0.481       0.48    0.470
+ 7  0.5   0.54  0.48  0.65   0.5   0    0.53 MIT      0.521       0.51    0.533
+ 8  0.48  0.45  0.59  0.2    0.5   0    0.58 NUC      0.452       0.45    0.456
+ 9  0.55  0.5   0.66  0.36   0.5   0    0.49 MIT      0.521       0.51    0.533
+10  0.4   0.39  0.6   0.15   0.5   0    0.58 CYT      0.481       0.48    0.470
+# ℹ 1,474 more rows
+# ℹ 11 more variables: gvh_median &lt;dbl&gt;, alm_mean &lt;dbl&gt;, alm_median &lt;dbl&gt;,
+#   mit_mean &lt;dbl&gt;, mit_median &lt;dbl&gt;, erl_mean &lt;dbl&gt;, erl_median &lt;dbl&gt;,
+#   pox_mean &lt;dbl&gt;, pox_median &lt;dbl&gt;, vac_mean &lt;dbl&gt;, vac_median &lt;dbl&gt;</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="task-3-combining-excel-and-delimited-data" class="level2">
