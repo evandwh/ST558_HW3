@@ -167,7 +167,32 @@ white_wine_colnames
 
 ```{r}
 colnames(white_wine_data) <- unlist(white_wine_colnames[,1])
+white_wine_data <- white_wine_data |>
+  mutate("Type" = "White")
+```
+
+```{r}
 white_wine_data
+```
+
+
+```{r}
+red_wine_data <- read_delim("https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv", delim = ";")
+colnames(red_wine_data) <- unlist(white_wine_colnames[,1])
+red_wine_data <- red_wine_data |>
+  mutate("Type" = "Red")
+red_wine_data
+```
+
+```{r}
+wine_data <- bind_rows(white_wine_data, red_wine_data)
+wine_data
+```
+
+```{r}
+wine_data |>
+  filter(quality > 6.5, alcohol < 132)
+
 ```
 
 
