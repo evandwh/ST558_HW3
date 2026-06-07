@@ -76,6 +76,7 @@ First we need to read in the tidyverse package to be prepared to read in our dat
 #| warning: false
 library(tidyverse)
 library(readxl)
+library(DBI)
 ```
 
 Now, let's read in our comma separated data and assign column names in the process
@@ -200,3 +201,24 @@ wine_data |>
 
 
 ## Task 4: Database Practice
+
+```{r}
+con <- dbConnect(RSQLite::SQLite(), "lahman.db")
+dbListTables(con)
+```
+
+```{r}
+tbl(con, "Teams") |>
+  filter(yearID == 2015) |>
+  collect()
+```
+
+```{r}
+tbl(con, sql(
+"SELECT *
+FROM `Teams`
+WHERE (`yearID` = 2015.0)")
+) |>
+  collect()
+```
+
