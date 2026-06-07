@@ -191,8 +191,11 @@ wine_data
 
 ```{r}
 wine_data |>
-  filter(quality > 6.5, alcohol < 132)
-
+  filter(quality > 6.5, alcohol < 132) |>
+  arrange(desc(quality)) |>
+  select(contains("acid"), alcohol, quality) |>
+  group_by(quality) |>
+  mutate(mean_alcohol = mean(alcohol), sd_alcohol = sd(alcohol))
 ```
 
 
