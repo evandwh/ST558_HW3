@@ -196,7 +196,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First we need to read in the tidyverse package to be prepared to read in our data as nice tibbles.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, let’s read in our comma separated data and assign column names in the process</p>
 <div class="cell">
@@ -504,6 +505,80 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </section>
 <section id="task-4-database-practice" class="level2">
 <h2 class="anchored" data-anchor-id="task-4-database-practice">Task 4: Database Practice</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"lahman.db"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "AllstarFull"         "Appearances"         "AwardsManagers"     
+ [4] "AwardsPlayers"       "AwardsShareManagers" "AwardsSharePlayers" 
+ [7] "Batting"             "BattingPost"         "CollegePlaying"     
+[10] "Fielding"            "FieldingOF"          "FieldingOFsplit"    
+[13] "FieldingPost"        "HallOfFame"          "HomeGames"          
+[16] "LahmanData"          "Managers"            "ManagersHalf"       
+[19] "Parks"               "People"              "Pitching"           
+[22] "PitchingPost"        "Salaries"            "Schools"            
+[25] "SeriesPost"          "Teams"               "TeamsFranchises"    
+[28] "TeamsHalf"           "battingLabels"       "fieldingLabels"     
+[31] "pitchingLabels"     </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"Teams"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 30 × 48
+   yearID lgID  teamID franchID divID  Rank     G Ghome     W     L DivWin WCWin
+    &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1   2015 NL    ARI    ARI      W         3   162    81    79    83 N      N    
+ 2   2015 NL    ATL    ATL      E         4   162    81    67    95 N      N    
+ 3   2015 AL    BAL    BAL      E         3   162    78    81    81 N      N    
+ 4   2015 AL    BOS    BOS      E         5   162    81    78    84 N      N    
+ 5   2015 AL    CHA    CHW      C         4   162    81    76    86 N      N    
+ 6   2015 NL    CHN    CHC      C         3   162    81    97    65 N      Y    
+ 7   2015 NL    CIN    CIN      C         5   162    81    64    98 N      N    
+ 8   2015 AL    CLE    CLE      C         3   161    80    81    80 N      N    
+ 9   2015 NL    COL    COL      W         5   162    81    68    94 N      N    
+10   2015 AL    DET    DET      C         5   161    81    74    87 N      N    
+# ℹ 20 more rows
+# ℹ 36 more variables: LgWin &lt;chr&gt;, WSWin &lt;chr&gt;, R &lt;int&gt;, AB &lt;int&gt;, H &lt;int&gt;,
+#   X2B &lt;int&gt;, X3B &lt;int&gt;, HR &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, SB &lt;int&gt;, CS &lt;int&gt;,
+#   HBP &lt;int&gt;, SF &lt;int&gt;, RA &lt;int&gt;, ER &lt;int&gt;, ERA &lt;dbl&gt;, CG &lt;int&gt;, SHO &lt;int&gt;,
+#   SV &lt;int&gt;, IPouts &lt;int&gt;, HA &lt;int&gt;, HRA &lt;int&gt;, BBA &lt;int&gt;, SOA &lt;int&gt;, E &lt;int&gt;,
+#   DP &lt;int&gt;, FP &lt;dbl&gt;, name &lt;chr&gt;, park &lt;chr&gt;, attendance &lt;int&gt;, BPF &lt;int&gt;,
+#   PPF &lt;int&gt;, teamIDBR &lt;chr&gt;, teamIDlahman45 &lt;chr&gt;, teamIDretro &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="st">"SELECT *</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM `Teams`</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE (`yearID` = 2015.0)"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 30 × 48
+   yearID lgID  teamID franchID divID  Rank     G Ghome     W     L DivWin WCWin
+    &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1   2015 NL    ARI    ARI      W         3   162    81    79    83 N      N    
+ 2   2015 NL    ATL    ATL      E         4   162    81    67    95 N      N    
+ 3   2015 AL    BAL    BAL      E         3   162    78    81    81 N      N    
+ 4   2015 AL    BOS    BOS      E         5   162    81    78    84 N      N    
+ 5   2015 AL    CHA    CHW      C         4   162    81    76    86 N      N    
+ 6   2015 NL    CHN    CHC      C         3   162    81    97    65 N      Y    
+ 7   2015 NL    CIN    CIN      C         5   162    81    64    98 N      N    
+ 8   2015 AL    CLE    CLE      C         3   161    80    81    80 N      N    
+ 9   2015 NL    COL    COL      W         5   162    81    68    94 N      N    
+10   2015 AL    DET    DET      C         5   161    81    74    87 N      N    
+# ℹ 20 more rows
+# ℹ 36 more variables: LgWin &lt;chr&gt;, WSWin &lt;chr&gt;, R &lt;int&gt;, AB &lt;int&gt;, H &lt;int&gt;,
+#   X2B &lt;int&gt;, X3B &lt;int&gt;, HR &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, SB &lt;int&gt;, CS &lt;int&gt;,
+#   HBP &lt;int&gt;, SF &lt;int&gt;, RA &lt;int&gt;, ER &lt;int&gt;, ERA &lt;dbl&gt;, CG &lt;int&gt;, SHO &lt;int&gt;,
+#   SV &lt;int&gt;, IPouts &lt;int&gt;, HA &lt;int&gt;, HRA &lt;int&gt;, BBA &lt;int&gt;, SOA &lt;int&gt;, E &lt;int&gt;,
+#   DP &lt;int&gt;, FP &lt;dbl&gt;, name &lt;chr&gt;, park &lt;chr&gt;, attendance &lt;int&gt;, BPF &lt;int&gt;,
+#   PPF &lt;int&gt;, teamIDBR &lt;chr&gt;, teamIDlahman45 &lt;chr&gt;, teamIDretro &lt;chr&gt;</code></pre>
+</div>
+</div>
 
 
 </section>
