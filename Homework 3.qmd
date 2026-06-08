@@ -77,6 +77,7 @@ First we need to read in the tidyverse package to be prepared to read in our dat
 library(tidyverse)
 library(readxl)
 library(DBI)
+library(knitr)
 ```
 
 Now, let's read in our comma separated data and assign column names in the process
@@ -210,7 +211,7 @@ dbListTables(con)
 ```{r}
 tbl(con, "Teams") |>
   filter(yearID == 2015) |>
-  collect()
+  kable()
 ```
 
 ```{r}
@@ -219,6 +220,66 @@ tbl(con, sql(
 FROM `Teams`
 WHERE (`yearID` = 2015.0)")
 ) |>
+  kable()
+```
+
+```{r}
+Hall_of_Fame <- tbl(con,"HallofFame") |>
+  filter(inducted == "Y") |>
+  select(playerID, yearID, category)
+Hall_of_Fame |> 
   collect()
+```
+
+```{r}
+head(Hall_of_Fame) |>
+  kable()
+```
+
+
+```{r}
+Hall_of_Fame_w_Names <- left_join(Hall_of_Fame,
+          tbl(con, "People"),
+          by = join_by(playerID == playerID)) |>
+  select(playerID, yearID, category, nameFirst, nameLast) |>
+  collect()
+Hall_of_Fame_w_Names
+```
+
+```{r}
+head(Hall_of_Fame_w_Names) |>
+  kable()
+```
+
+
+
+```{r}
+Manager_WinPer_Data <- tbl(con, "Managers") |>
+  select(playerID, G, W, L) |>
+  group_by(playerID) |>
+  summarize(G_managed = sum(G, na.rm = TRUE),
+    Total_W = sum(W, na.rm = TRUE),
+    Total_L = sum(L, na.rm = TRUE)) |>
+  collect() |>
+  mutate("Win_Percent" = Total_W/G_managed) |>
+  arrange(desc(Win_Percent))
+Manager_WinPer_Data
+```
+```{r}
+head(Manager_WinPer_Data, 20) |>
+  kable()
+```
+
+
+```{r}
+Hall_of_Fame_Managers <- inner_join(Hall_of_Fame_w_Names, 
+           Manager_WinPer_Data,
+           by = join_by(playerID == playerID))
+Hall_of_Fame_Managers
+```
+
+```{r}
+head(Hall_of_Fame_Managers) |>
+  kable()
 ```
 
