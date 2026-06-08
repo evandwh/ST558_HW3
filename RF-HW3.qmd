@@ -123,14 +123,14 @@ yeast |>
 
 ```{r}
 library(readxl)
-white <- read_excel("HW3DataFiles/white-wine.xlsx")
+white <- read_excel("white-wine.xlsx")
 white
 ```
 
 2.  Use the second sheet of white-wine.xlsx to find variable names and apply to the data set.
 
 ```{r}
-colnames(white) <- read_excel("HW3DataFiles/white-wine.xlsx", sheet = "variables")[[1]] # [[1]] is needed to return as a vector
+colnames(white) <- read_excel("white-wine.xlsx", sheet = "variables")[[1]] # [[1]] is needed to return as a vector
 white
 
 ```
@@ -145,7 +145,7 @@ white
 4.  Read in red-wine.csv, add the column indicating the wines are red, and fix the variable names to match the white wine data
 
 ```{r}
-red <- read_delim("HW3DataFiles/red-wine.csv", delim = ";")
+red <- read_delim("red-wine.csv", delim = ";")
 red$type <- "red"
 colnames(red) <- colnames(white)
 red
@@ -199,7 +199,7 @@ wine |>
 
 ```{r}
 library(DBI)
-con <- dbConnect(RSQLite::SQLite(), "HW3DataFiles/lahman.db")
+con <- dbConnect(RSQLite::SQLite(), "lahman.db")
 dbListTables(con)
 ```
 
@@ -283,4 +283,3 @@ inner_join(
     arrange(desc(WinPercent))
 )                                                  # note: prior order is lost in the join
 ```
-
