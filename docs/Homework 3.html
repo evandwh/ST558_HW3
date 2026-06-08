@@ -243,22 +243,191 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>glass_data <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type_of_Glass =</span> <span class="fu">factor</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recode</span>(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        Type_of_Glass,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'1'</span> <span class="ot">=</span> <span class="st">"building_windows_float_processed"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'2'</span> <span class="ot">=</span> <span class="st">"building_windows_not_float_processed"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'3'</span> <span class="ot">=</span> <span class="st">"vehicle_windows_float_processed"</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'4'</span> <span class="ot">=</span> <span class="st">"vehicle_windows_not_float_processed"</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'5'</span> <span class="ot">=</span> <span class="st">"containers"</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'6'</span> <span class="ot">=</span> <span class="st">"tableware"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'7'</span> <span class="ot">=</span> <span class="st">"headlamps"</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Fe <span class="sc">&lt;</span> <span class="fl">0.2</span>, Type_of_Glass <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"tableware"</span>,<span class="st">"headlamps"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(glass_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">RI</th>
+<th style="text-align: right;">Na</th>
+<th style="text-align: right;">Mg</th>
+<th style="text-align: right;">Al</th>
+<th style="text-align: right;">Si</th>
+<th style="text-align: right;">K</th>
+<th style="text-align: right;">Ca</th>
+<th style="text-align: right;">Ba</th>
+<th style="text-align: right;">Fe</th>
+<th style="text-align: right;">Type_of_Glass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.52101</td>
+<td style="text-align: right;">13.64</td>
+<td style="text-align: right;">4.49</td>
+<td style="text-align: right;">1.10</td>
+<td style="text-align: right;">71.78</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">8.75</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.51761</td>
+<td style="text-align: right;">13.89</td>
+<td style="text-align: right;">3.60</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">72.73</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">7.83</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.51618</td>
+<td style="text-align: right;">13.53</td>
+<td style="text-align: right;">3.55</td>
+<td style="text-align: right;">1.54</td>
+<td style="text-align: right;">72.99</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">7.78</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.51766</td>
+<td style="text-align: right;">13.21</td>
+<td style="text-align: right;">3.69</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">72.61</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">8.22</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.51742</td>
+<td style="text-align: right;">13.27</td>
+<td style="text-align: right;">3.62</td>
+<td style="text-align: right;">1.24</td>
+<td style="text-align: right;">73.08</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">8.07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.51596</td>
+<td style="text-align: right;">12.79</td>
+<td style="text-align: right;">3.61</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">72.97</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">8.07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.51743</td>
+<td style="text-align: right;">13.30</td>
+<td style="text-align: right;">3.60</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">73.09</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">8.17</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.51756</td>
+<td style="text-align: right;">13.15</td>
+<td style="text-align: right;">3.61</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">73.24</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">8.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.51918</td>
+<td style="text-align: right;">14.04</td>
+<td style="text-align: right;">3.58</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">72.08</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">8.30</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1.51755</td>
+<td style="text-align: right;">13.00</td>
+<td style="text-align: right;">3.60</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">72.99</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">8.40</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>editted_glass_data <span class="ot">&lt;-</span> glass_data <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type_of_Glass =</span> <span class="fu">factor</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recode</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        Type_of_Glass,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'1'</span> <span class="ot">=</span> <span class="st">"building_windows_float_processed"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'2'</span> <span class="ot">=</span> <span class="st">"building_windows_not_float_processed"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'3'</span> <span class="ot">=</span> <span class="st">"vehicle_windows_float_processed"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'4'</span> <span class="ot">=</span> <span class="st">"vehicle_windows_not_float_processed"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'5'</span> <span class="ot">=</span> <span class="st">"containers"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'6'</span> <span class="ot">=</span> <span class="st">"tableware"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'7'</span> <span class="ot">=</span> <span class="st">"headlamps"</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Fe <span class="sc">&lt;</span> <span class="fl">0.2</span>, Type_of_Glass <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"tableware"</span>,<span class="st">"headlamps"</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>editted_glass_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 38 × 11
       ID    RI    Na    Mg    Al    Si     K    Ca    Ba    Fe Type_of_Glass
@@ -276,26 +445,194 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 # ℹ 28 more rows</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(editted_glass_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">RI</th>
+<th style="text-align: right;">Na</th>
+<th style="text-align: right;">Mg</th>
+<th style="text-align: right;">Al</th>
+<th style="text-align: right;">Si</th>
+<th style="text-align: right;">K</th>
+<th style="text-align: right;">Ca</th>
+<th style="text-align: right;">Ba</th>
+<th style="text-align: right;">Fe</th>
+<th style="text-align: left;">Type_of_Glass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">177</td>
+<td style="text-align: right;">1.51905</td>
+<td style="text-align: right;">14.00</td>
+<td style="text-align: right;">2.39</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">72.37</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.57</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">1.51937</td>
+<td style="text-align: right;">13.79</td>
+<td style="text-align: right;">2.41</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">72.76</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.77</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">179</td>
+<td style="text-align: right;">1.51829</td>
+<td style="text-align: right;">14.46</td>
+<td style="text-align: right;">2.24</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">72.38</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.26</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">1.51852</td>
+<td style="text-align: right;">14.09</td>
+<td style="text-align: right;">2.19</td>
+<td style="text-align: right;">1.66</td>
+<td style="text-align: right;">72.67</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.32</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">181</td>
+<td style="text-align: right;">1.51299</td>
+<td style="text-align: right;">14.40</td>
+<td style="text-align: right;">1.74</td>
+<td style="text-align: right;">1.54</td>
+<td style="text-align: right;">74.55</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">7.59</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">1.51888</td>
+<td style="text-align: right;">14.99</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">1.74</td>
+<td style="text-align: right;">72.50</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.95</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">1.51916</td>
+<td style="text-align: right;">14.15</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2.09</td>
+<td style="text-align: right;">72.74</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">10.88</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">1.51969</td>
+<td style="text-align: right;">14.56</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">73.48</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">11.22</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">1.51115</td>
+<td style="text-align: right;">17.38</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">75.41</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">6.65</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">tableware</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">186</td>
+<td style="text-align: right;">1.51131</td>
+<td style="text-align: right;">13.69</td>
+<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">1.81</td>
+<td style="text-align: right;">72.81</td>
+<td style="text-align: right;">1.76</td>
+<td style="text-align: right;">5.43</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">headlamps</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="yeast-data" class="level4">
 <h4 class="anchored" data-anchor-id="yeast-data">Yeast Data</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>yeast_data <span class="ot">&lt;-</span> <span class="fu">read_table</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://www4.stat.ncsu.edu/online/datasets/yeast.data"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"seq_name"</span>, </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"mcg"</span>, </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"gvh"</span>, </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"alm"</span>, </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"mit"</span>, </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"erl"</span>, </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"pox"</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"vac"</span>, </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"nuc"</span>, </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"class"</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>yeast_data <span class="ot">&lt;-</span> <span class="fu">read_table</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://www4.stat.ncsu.edu/online/datasets/yeast.data"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"seq_name"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"mcg"</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"gvh"</span>, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"alm"</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"mit"</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"erl"</span>, </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"pox"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"vac"</span>, </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"nuc"</span>, </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"class"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>yeast_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>yeast_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,484 × 10
    seq_name     mcg   gvh   alm   mit   erl   pox   vac   nuc class
@@ -314,10 +651,155 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>yeast_data <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">"seq_name"</span>, <span class="sc">-</span><span class="st">"nuc"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">median =</span> median), <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(yeast_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">seq_name</th>
+<th style="text-align: right;">mcg</th>
+<th style="text-align: right;">gvh</th>
+<th style="text-align: right;">alm</th>
+<th style="text-align: right;">mit</th>
+<th style="text-align: right;">erl</th>
+<th style="text-align: right;">pox</th>
+<th style="text-align: right;">vac</th>
+<th style="text-align: right;">nuc</th>
+<th style="text-align: left;">class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ADT1_YEAST</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ADT2_YEAST</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ADT3_YEAST</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AAR2_YEAST</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">NUC</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AATM_YEAST</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AATC_YEAST</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">CYT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ABC1_YEAST</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BAF1_YEAST</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: left;">NUC</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ABF2_YEAST</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: left;">MIT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ABP1_YEAST</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: left;">CYT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summarized_yeast_data <span class="ot">&lt;-</span> yeast_data <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">"seq_name"</span>, <span class="sc">-</span><span class="st">"nuc"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">median =</span> median), <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>summarized_yeast_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,484 × 22
 # Groups:   class [10]
@@ -339,17 +821,317 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 #   pox_mean &lt;dbl&gt;, pox_median &lt;dbl&gt;, vac_mean &lt;dbl&gt;, vac_median &lt;dbl&gt;</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(summarized_yeast_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">mcg</th>
+<th style="text-align: right;">gvh</th>
+<th style="text-align: right;">alm</th>
+<th style="text-align: right;">mit</th>
+<th style="text-align: right;">erl</th>
+<th style="text-align: right;">pox</th>
+<th style="text-align: right;">vac</th>
+<th style="text-align: left;">class</th>
+<th style="text-align: right;">mcg_mean</th>
+<th style="text-align: right;">mcg_median</th>
+<th style="text-align: right;">gvh_mean</th>
+<th style="text-align: right;">gvh_median</th>
+<th style="text-align: right;">alm_mean</th>
+<th style="text-align: right;">alm_median</th>
+<th style="text-align: right;">mit_mean</th>
+<th style="text-align: right;">mit_median</th>
+<th style="text-align: right;">erl_mean</th>
+<th style="text-align: right;">erl_median</th>
+<th style="text-align: right;">pox_mean</th>
+<th style="text-align: right;">pox_median</th>
+<th style="text-align: right;">vac_mean</th>
+<th style="text-align: right;">vac_median</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: left;">NUC</td>
+<td style="text-align: right;">0.4524476</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.4561305</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.5293240</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.2283450</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.5034965</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4941026</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: left;">CYT</td>
+<td style="text-align: right;">0.4807127</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.4695032</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.5354212</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.2271058</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.5043197</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0010799</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4993952</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: left;">NUC</td>
+<td style="text-align: right;">0.4524476</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.4561305</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.5293240</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.2283450</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.5034965</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4941026</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: left;">MIT</td>
+<td style="text-align: right;">0.5214344</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.5332377</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.5173770</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.4044262</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.5000000</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0088525</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5016803</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: left;">CYT</td>
+<td style="text-align: right;">0.4807127</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.4695032</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.5354212</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.2271058</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.5043197</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0010799</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4993952</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 </section>
 <section id="task-3-combining-excel-and-delimited-data" class="level2">
 <h2 class="anchored" data-anchor-id="task-3-combining-excel-and-delimited-data">Task 3: Combining Excel and Delimited Data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>white_wine_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"white-wine.xlsx"</span>, </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sheet =</span> <span class="fu">excel_sheets</span>(<span class="st">"white-wine.xlsx"</span>)[<span class="dv">1</span>],</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>white_wine_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"white-wine.xlsx"</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sheet =</span> <span class="fu">excel_sheets</span>(<span class="st">"white-wine.xlsx"</span>)[<span class="dv">1</span>],</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>white_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>white_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,898 × 12
    `fixed acidity` `volatile acidity` `citric acid` `residual sugar` chlorides
@@ -371,9 +1153,9 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>white_wine_colnames <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"white-wine.xlsx"</span>, </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sheet =</span> <span class="fu">excel_sheets</span>(<span class="st">"white-wine.xlsx"</span>)[<span class="dv">2</span>])</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>white_wine_colnames</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>white_wine_colnames <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"white-wine.xlsx"</span>, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sheet =</span> <span class="fu">excel_sheets</span>(<span class="st">"white-wine.xlsx"</span>)[<span class="dv">2</span>])</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>white_wine_colnames</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 1
    Variables           
@@ -393,12 +1175,12 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(white_wine_data) <span class="ot">&lt;-</span> <span class="fu">unlist</span>(white_wine_colnames[,<span class="dv">1</span>])</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>white_wine_data <span class="ot">&lt;-</span> white_wine_data <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"type"</span> <span class="ot">=</span> <span class="st">"White"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(white_wine_data) <span class="ot">&lt;-</span> <span class="fu">unlist</span>(white_wine_colnames[,<span class="dv">1</span>])</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>white_wine_data <span class="ot">&lt;-</span> white_wine_data <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"type"</span> <span class="ot">=</span> <span class="st">"White"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>white_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>white_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,898 × 13
    fixed_acidity volatile_acidity citric_acid residual_sugar chlorides
@@ -420,7 +1202,199 @@ dbl (11): ID, RI, Na, Mg, Al, Si, K, Ca, Ba, Fe, Type_of_Glass
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>red_wine_data <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv"</span>, <span class="at">delim =</span> <span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(white_wine_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">fixed_acidity</th>
+<th style="text-align: right;">volatile_acidity</th>
+<th style="text-align: right;">citric_acid</th>
+<th style="text-align: right;">residual_sugar</th>
+<th style="text-align: right;">chlorides</th>
+<th style="text-align: right;">free_sulfur_dioxide</th>
+<th style="text-align: right;">total_sulfur_dioxide</th>
+<th style="text-align: right;">density</th>
+<th style="text-align: right;">pH</th>
+<th style="text-align: right;">sulphates</th>
+<th style="text-align: right;">alcohol</th>
+<th style="text-align: right;">quality</th>
+<th style="text-align: left;">type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">20.7</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">1.0010</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">132</td>
+<td style="text-align: right;">0.9940</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">6.9</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">0.9951</td>
+<td style="text-align: right;">326</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">101</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">8.5</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">186</td>
+<td style="text-align: right;">0.9956</td>
+<td style="text-align: right;">319</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">8.5</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">186</td>
+<td style="text-align: right;">0.9956</td>
+<td style="text-align: right;">319</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">6.9</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">0.9951</td>
+<td style="text-align: right;">326</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">101</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">0.9949</td>
+<td style="text-align: right;">318</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">20.7</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">1.0010</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">132</td>
+<td style="text-align: right;">0.9940</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0.9938</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">White</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>red_wine_data <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv"</span>, <span class="at">delim =</span> <span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1599 Columns: 12
 ── Column specification ────────────────────────────────────────────────────────
@@ -430,10 +1404,10 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(red_wine_data) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(white_wine_data)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>red_wine_data <span class="ot">&lt;-</span> red_wine_data <span class="sc">|&gt;</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"type"</span> <span class="ot">=</span> <span class="st">"Red"</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>red_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(red_wine_data) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(white_wine_data)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>red_wine_data <span class="ot">&lt;-</span> red_wine_data <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"type"</span> <span class="ot">=</span> <span class="st">"Red"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>red_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,599 × 13
    fixed_acidity volatile_acidity citric_acid residual_sugar chlorides
@@ -455,8 +1429,200 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>wine_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(white_wine_data, red_wine_data)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(red_wine_data, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">fixed_acidity</th>
+<th style="text-align: right;">volatile_acidity</th>
+<th style="text-align: right;">citric_acid</th>
+<th style="text-align: right;">residual_sugar</th>
+<th style="text-align: right;">chlorides</th>
+<th style="text-align: right;">free_sulfur_dioxide</th>
+<th style="text-align: right;">total_sulfur_dioxide</th>
+<th style="text-align: right;">density</th>
+<th style="text-align: right;">pH</th>
+<th style="text-align: right;">sulphates</th>
+<th style="text-align: right;">alcohol</th>
+<th style="text-align: right;">quality</th>
+<th style="text-align: left;">type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">7.4</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.9978</td>
+<td style="text-align: right;">3.51</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7.8</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2.6</td>
+<td style="text-align: right;">0.098</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.9968</td>
+<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">9.8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.8</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">2.3</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0.9970</td>
+<td style="text-align: right;">3.26</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">9.8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11.2</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.9980</td>
+<td style="text-align: right;">3.16</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">9.8</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.4</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.9978</td>
+<td style="text-align: right;">3.51</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7.4</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.8</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.9978</td>
+<td style="text-align: right;">3.51</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.9</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">0.9964</td>
+<td style="text-align: right;">3.30</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7.3</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0.9946</td>
+<td style="text-align: right;">3.39</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">10.0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.8</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0.9968</td>
+<td style="text-align: right;">3.36</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">9.5</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Red</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">6.1</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">0.9978</td>
+<td style="text-align: right;">3.35</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">10.5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Red</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>wine_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(white_wine_data, red_wine_data)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,497 × 13
    fixed_acidity volatile_acidity citric_acid residual_sugar chlorides
@@ -478,12 +1644,13 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>wine_data <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(quality <span class="sc">&gt;</span> <span class="fl">6.5</span>, alcohol <span class="sc">&lt;</span> <span class="dv">132</span>) <span class="sc">|&gt;</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(quality)) <span class="sc">|&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"acid"</span>), alcohol, type, quality) <span class="sc">|&gt;</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quality) <span class="sc">|&gt;</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_alcohol =</span> <span class="fu">mean</span>(alcohol), <span class="at">sd_alcohol =</span> <span class="fu">sd</span>(alcohol))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>filtered_wine_data <span class="ot">&lt;-</span> wine_data <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(quality <span class="sc">&gt;</span> <span class="fl">6.5</span>, alcohol <span class="sc">&lt;</span> <span class="dv">132</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(quality)) <span class="sc">|&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"acid"</span>), alcohol, type, quality) <span class="sc">|&gt;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quality) <span class="sc">|&gt;</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_alcohol =</span> <span class="fu">mean</span>(alcohol), <span class="at">sd_alcohol =</span> <span class="fu">sd</span>(alcohol))</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>filtered_wine_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,206 × 8
 # Groups:   quality [3]
@@ -503,12 +1670,244 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 # ℹ 1 more variable: sd_alcohol &lt;dbl&gt;</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filtered_wine_data, <span class="dv">20</span>) <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">fixed_acidity</th>
+<th style="text-align: right;">volatile_acidity</th>
+<th style="text-align: right;">citric_acid</th>
+<th style="text-align: right;">alcohol</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">quality</th>
+<th style="text-align: right;">mean_alcohol</th>
+<th style="text-align: right;">sd_alcohol</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">121.8000</td>
+<td style="text-align: right;">10.13410</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">124</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">121.8000</td>
+<td style="text-align: right;">10.13410</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">121.8000</td>
+<td style="text-align: right;">10.13410</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">121.8000</td>
+<td style="text-align: right;">10.13410</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">121.8000</td>
+<td style="text-align: right;">10.13410</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">124</td>
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">94.1288</td>
+<td style="text-align: right;">42.81092</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="task-4-database-practice" class="level2">
 <h2 class="anchored" data-anchor-id="task-4-database-practice">Task 4: Database Practice</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"lahman.db"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"lahman.db"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "AllstarFull"         "Appearances"         "AwardsManagers"     
  [4] "AwardsPlayers"       "AwardsShareManagers" "AwardsSharePlayers" 
@@ -524,9 +1923,9 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"Teams"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"Teams"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2137,12 +3536,12 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">"SELECT *</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM `Teams`</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE (`yearID` = 2015.0)"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">"SELECT *</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM `Teams`</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE (`yearID` = 2015.0)"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3753,11 +5152,11 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con,<span class="st">"HallofFame"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(inducted <span class="sc">==</span> <span class="st">"Y"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, yearID, category)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame <span class="sc">|&gt;</span> </span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con,<span class="st">"HallofFame"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(inducted <span class="sc">==</span> <span class="st">"Y"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, yearID, category)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame <span class="sc">|&gt;</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 340 × 3
    playerID  yearID category         
@@ -3776,8 +5175,8 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame) <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame) <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -3823,12 +5222,12 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_w_Names <span class="ot">&lt;-</span> <span class="fu">left_join</span>(Hall_of_Fame,</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">tbl</span>(con, <span class="st">"People"</span>),</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">join_by</span>(playerID <span class="sc">==</span> playerID)) <span class="sc">|&gt;</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, yearID, category, nameFirst, nameLast) <span class="sc">|&gt;</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_w_Names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_w_Names <span class="ot">&lt;-</span> <span class="fu">left_join</span>(Hall_of_Fame,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">tbl</span>(con, <span class="st">"People"</span>),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">join_by</span>(playerID <span class="sc">==</span> playerID)) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, yearID, category, nameFirst, nameLast) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_w_Names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 340 × 5
    playerID  yearID category          nameFirst nameLast 
@@ -3847,8 +5246,8 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame_w_Names) <span class="sc">|&gt;</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame_w_Names) <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -3908,16 +5307,16 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Manager_WinPer_Data <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"Managers"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, G, W, L) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">G_managed =</span> <span class="fu">sum</span>(G, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Total_W =</span> <span class="fu">sum</span>(W, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Total_L =</span> <span class="fu">sum</span>(L, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Win_Percent"</span> <span class="ot">=</span> Total_W<span class="sc">/</span>G_managed) <span class="sc">|&gt;</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Win_Percent))</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>Manager_WinPer_Data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Manager_WinPer_Data <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"Managers"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, G, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">G_managed =</span> <span class="fu">sum</span>(G, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Total_W =</span> <span class="fu">sum</span>(W, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Total_L =</span> <span class="fu">sum</span>(L, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Win_Percent"</span> <span class="ot">=</span> Total_W<span class="sc">/</span>G_managed) <span class="sc">|&gt;</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Win_Percent))</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>Manager_WinPer_Data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 749 × 5
    playerID  G_managed Total_W Total_L Win_Percent
@@ -3936,8 +5335,8 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Manager_WinPer_Data, <span class="dv">20</span>) <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Manager_WinPer_Data, <span class="dv">20</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -4095,10 +5494,10 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_Managers <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(Hall_of_Fame_w_Names, </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>           Manager_WinPer_Data,</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">by =</span> <span class="fu">join_by</span>(playerID <span class="sc">==</span> playerID))</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_Managers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_Managers <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(Hall_of_Fame_w_Names, </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>           Manager_WinPer_Data,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">by =</span> <span class="fu">join_by</span>(playerID <span class="sc">==</span> playerID))</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>Hall_of_Fame_Managers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 97 × 9
    playerID  yearID category        nameFirst nameLast G_managed Total_W Total_L
@@ -4118,8 +5517,8 @@ dbl (12): fixed acidity, volatile acidity, citric acid, residual sugar, chlo...
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame_Managers) <span class="sc">|&gt;</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Hall_of_Fame_Managers) <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
