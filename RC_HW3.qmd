@@ -120,4 +120,174 @@ print(yeast_data)
 
 ## Task 3: Combining Excel and Delimited Data
 
+```{r}
+library(readxl)
+white_wine_data <- read_excel("white-wine.xlsx")
+white_wine_data
+```
+
+##### Next, we look at the excel sheets available by calling the method **excel_sheets()**, and then subsequently use those variable names in place of the current column names using the **colnames()** method.
+
+```{r}
+excel_sheets("white-wine.xlsx")
+
+variable_names <- read_excel("white-wine.xlsx", sheet = excel_sheets("white-wine.xlsx")[2])
+variable_names
+```
+
+##### An important observation is the use of **str()** in order to identify the keys or columns that belong to the tibble, variable_names, which in this case is *Variables,* which we then use to extract the vector of variables.
+```{r}
+str(variable_names)
+
+colnames(white_wine_data) <- variable_names$Variables
+white_wine_data
+```
+
+##### Assign each of the rows a corresponding type of *white* indicating that they are of type white whine.
+
+```{r}
+white_wine_data$type <- "white"
+```
+
+
+##### Read in the red wine data and display the tibble. Next, bind the two data frames (tibbles) into one data frame using **bind_rows().**
+
+##### Then, we want to look at taking more than one column from the dataset and the **select()** method works well when dealing with more than one column at a time, as opposed to the **dplyr::pull()** method which gets a single column.
+
+```{r}
+library(readr)
+red_wine_data <- read_delim(delim = ';', "red-wine.csv")
+red_wine_data
+
+#Overwrite the current column names:
+colnames(red_wine_data) <- variable_names$Variables
+red_wine_data$type <- "red"
+
+wine_data <- dplyr::bind_rows(white_wine_data, red_wine_data)
+wine_data <- wine_data |>
+  filter(quality > 6.5 & alcohol < 132) |>
+  arrange(desc(quality)) |>
+  select(citric_acid, alcohol, type, quality) |>
+  group_by(quality) |>
+  mutate(across(
+    c(alcohol),
+    list(mean = mean, sd = sd),
+    .names = "{.col}_{.fn}"
+  ))
+
+wine_data
+```
+
 ## Task 4: Database Practice
+
+##### First, we connect to the Lahman SQLite database and inspect the available tables. We then demonstrate querying the database both through the tbl() interface and by writing raw SQL statements directly.
+
+```{r}
+library(Lahman)
+library(dplyr)
+library(DBI)
+
+con <- dbConnect(RSQLite::SQLite(), "lahman.db")
+
+dbListTables(con)
+
+tbl(con, "Teams")
+
+tbl(con, sql(
+"SELECT *
+FROM `Teams`
+"))
+
+tbl(
+  con,
+  sql("
+    SELECT `nameLast`
+    FROM `People`
+    WHERE (playerID = 'cobbty01')
+  ")
+)
+```
+##### Next, we query the HallOfFame table and return only those players who were inducted. The results are then sorted by player ID and restricted to the columns of interest.
+```{r}
+tbl(con, sql(
+"SELECT *
+FROM `HallOfFame`
+"))|>
+  arrange(playerID)
+
+tbl(con, sql(
+"SELECT `playerID`, `yearID`, `category`
+FROM `HallOfFame`
+WHERE (`inducted` = 'Y')")
+)
+```
+##### We then join the HallOfFame and People tables using the shared playerID column. This allows us to add each player's first and last name to the Hall of Fame records.
+```{r}
+tbl(con, "HallOfFame") |>
+  filter(inducted == "Y") |>
+  inner_join(
+    tbl(con, "People"),
+    by = "playerID"
+  ) |>
+  select(playerID, yearID, category, nameFirst, nameLast)
+
+```
+##### Next, we join the HallOfFame and Managers tables in order to identify Hall of Fame inductees who also managed teams. We then group by manager, calculate their career totals, and compute their overall win percentage.
+
+```{r}
+tbl(con, sql(
+"SELECT *
+FROM `Managers`
+"))
+
+tbl(con, "HallOfFame") |>
+  filter(inducted == "Y") |>
+  inner_join(
+    tbl(con, "Managers"),
+    by = "playerID"
+  ) |>
+select(playerID, G, W, L) |>
+group_by(playerID) |>
+summarize(G_managed = sum(G, na.rm = TRUE),
+Total_W = sum(W, na.rm = TRUE),
+Total_L = sum(L, na.rm = TRUE)) |>
+  collect() |>
+  mutate(
+    win_percentage = Total_W / G_managed
+  ) |>
+  arrange(desc(win_percentage))
+```
+##### Finally, we combine the Hall of Fame player information with the managerial statistics. This produces a single table containing each Hall of Fame manager's induction information, name, career managerial totals, and win percentage.
+```{r}
+hof_people <- tbl(con, "HallOfFame") |>
+  filter(inducted == "Y") |>
+  inner_join(
+    tbl(con, "People"),
+    by = "playerID"
+  ) |>
+  select(playerID, yearID, category, nameFirst, nameLast)
+
+manager_stats <- tbl(con, "HallOfFame") |>
+  filter(inducted == "Y") |>
+  inner_join(
+    tbl(con, "Managers"),
+    by = "playerID"
+  ) |>
+  filter(plyrMgr == "Y") |>
+  group_by(playerID) |>
+  summarize(
+    G_managed = sum(G, na.rm = TRUE),
+    Total_W = sum(W, na.rm = TRUE),
+    Total_L = sum(L, na.rm = TRUE)
+  ) |>
+  mutate(
+  win_percentage = Total_W / G_managed
+)
+
+hof_people |>
+  inner_join(
+    manager_stats,
+    by = "playerID"
+  )
+```
+
