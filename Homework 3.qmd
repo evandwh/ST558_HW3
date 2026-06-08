@@ -59,9 +59,11 @@ as_tibble(iris) |>
 
 **What is meant by long format data and wide format data? Which do we generally prefer for statistical analysis?**
 
-Long format - Each row is a single observation Wide format - Each row is a subject, different columns are different observations
+- [**Long format**]{.underline}: Each row is a single observation, with each column being a single variable
 
-For statistical analysis, we perfer long form as it is much easier to work with for modeling and is more flexible. It is also easier to group and summarize.
+- [**Wide format**]{.underline}: Each row is a subject, where more than one observation may exist in a given row.
+
+For statistical analysis, we prefer long form as it is much easier to work with for modeling and is more flexible. It is also easier to group and summarize.
 
 ## Task 2: Reading Delimited Data
 
@@ -98,11 +100,11 @@ glass_data <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/glass.data",
 )
 glass_data
 ```
+
 ```{r}
 head(glass_data, 10) |>
   kable()
 ```
-
 
 ```{r}
 editted_glass_data <- glass_data |> 
@@ -128,7 +130,6 @@ editted_glass_data
 head(editted_glass_data, 10) |>
   kable()
 ```
-
 
 #### Yeast Data
 
@@ -159,7 +160,6 @@ head(yeast_data, 10) |>
   kable()
 ```
 
-
 ```{r}
 summarized_yeast_data <- yeast_data |> 
   select(-"seq_name", -"nuc") |>
@@ -173,8 +173,8 @@ head(summarized_yeast_data, 10) |>
   kable()
 ```
 
-
 ## Task 3: Combining Excel and Delimited Data
+
 ```{r}
 white_wine_data <- read_excel("white-wine.xlsx", 
                               sheet = excel_sheets("white-wine.xlsx")[1],
@@ -184,9 +184,9 @@ white_wine_data <- read_excel("white-wine.xlsx",
 ```{r}
 white_wine_data
 ```
+
 ```{r}
 ```
-
 
 ```{r}
 white_wine_colnames <- read_excel("white-wine.xlsx", 
@@ -203,12 +203,11 @@ white_wine_data <- white_wine_data |>
 ```{r}
 white_wine_data
 ```
+
 ```{r}
 head(white_wine_data, 10) |>
   kable()
 ```
-
-
 
 ```{r}
 red_wine_data <- read_delim("https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv", delim = ";")
@@ -222,7 +221,6 @@ red_wine_data
 head(red_wine_data, 10) |>
   kable()
 ```
-
 
 ```{r}
 wine_data <- bind_rows(white_wine_data, red_wine_data)
@@ -243,7 +241,6 @@ filtered_wine_data
 head(filtered_wine_data, 20) |>
   kable()
 ```
-
 
 ## Task 4: Database Practice
 
@@ -280,7 +277,6 @@ head(Hall_of_Fame) |>
   kable()
 ```
 
-
 ```{r}
 Hall_of_Fame_w_Names <- left_join(Hall_of_Fame,
           tbl(con, "People"),
@@ -295,8 +291,6 @@ head(Hall_of_Fame_w_Names) |>
   kable()
 ```
 
-
-
 ```{r}
 Manager_WinPer_Data <- tbl(con, "Managers") |>
   select(playerID, G, W, L) |>
@@ -309,11 +303,11 @@ Manager_WinPer_Data <- tbl(con, "Managers") |>
   arrange(desc(Win_Percent))
 Manager_WinPer_Data
 ```
+
 ```{r}
 head(Manager_WinPer_Data, 20) |>
   kable()
 ```
-
 
 ```{r}
 Hall_of_Fame_Managers <- inner_join(Hall_of_Fame_w_Names, 
@@ -326,4 +320,3 @@ Hall_of_Fame_Managers
 head(Hall_of_Fame_Managers) |>
   kable()
 ```
-
