@@ -17,25 +17,27 @@ author: Evan Whitfield, Ryan Friedman, Ralph Church
 
 **What are the major benefits of using R projects?**
 
-R projects provide a way to divide your work. Each with their own:
+- R projects provide a way to divide your work. Each with their own:
 
-Working directory Workspace (environment with stored data/objects) History Folder structure & source documents
+- Working directory Workspace (environment with stored data/objects) History Folder structure & source documents
 
-It is very easy to connect with GitHub for version control and collaboration.
+- It is very easy to connect with GitHub for version control and collaboration.
 
 #### Question 3
 
 **What is Git and what is GitHub?**
 
-Git is a version control system. GitHub is a hosting service that provides a home for our Git based projects.
+- Git is a version control system that tracks changes in files and code.
+
+- GitHub is a hosting service that provides a home for our Git based projects.
 
 #### Question 4
 
 **What are the two main differences between a `tibble` and a `data.frame`?**
 
-Tibbles print cleaner and usual return a tibble when you subset them. This makes them easier to chain.
+- Tibbles print cleaner and usual return a tibble when you subset them. This makes them easier to chain.
 
-Data frames try to print everything by default, but usually try to print out a vector, making them not print results as cleanly. Also, not easily chain-able.
+- Data frames try to print everything by default, but usually try to print out a vector, making them not print results as cleanly. Also, not easily chain-able.
 
 #### Question 5
 
@@ -71,7 +73,7 @@ We will start with Glass Data. When the data were viewed, it is shown to be deli
 
 #### Glass Data
 
-First we need to read in the tidyverse package to be prepared to read in our data as nice tibbles.
+First we need to read in the tidyverse package (and go ahead and read in some other packages for the futre) to be prepared to read in our data as nice tibbles.
 
 ```{r}
 #| message: false
@@ -101,10 +103,16 @@ glass_data <- read_csv("https://www4.stat.ncsu.edu/~online/datasets/glass.data",
 glass_data
 ```
 
+As with several outputs in this document, there are too many columns/variables to output when the tibble is called by name. We will use the `kable()` function from the `knitr` library to get a display uses a scroll bar to fit any columns that do not fit on the page. It would also display every single row, so we will use the `head()` function in most places to reduce the number of rows, while still showing the correct results. 
+
+`kable()` does not give the dimensions, so we will still want to call the data separately to get the dimensions of the tibble.
+
 ```{r}
 head(glass_data, 10) |>
   kable()
 ```
+
+The recode() function replaces the numeric glass type codes with descriptive labels. The labels are then converted to a factor (categorical data) using factor(), and mutate() is used to save the updated values back to the Type_of_glass column.
 
 ```{r}
 editted_glass_data <- glass_data |> 
@@ -132,6 +140,8 @@ head(editted_glass_data, 10) |>
 ```
 
 #### Yeast Data
+
+The `Yeast Data` is delimited by multiple white spaces. Using `read_table` will recognize any white space as a delimiter.
 
 ```{r}
 #| results: hide
@@ -175,18 +185,17 @@ head(summarized_yeast_data, 10) |>
 
 ## Task 3: Combining Excel and Delimited Data
 
+Now we will switch our attention to look at some wine data. First, we will read in some data about various white wines.
+
 ```{r}
 white_wine_data <- read_excel("white-wine.xlsx", 
                               sheet = excel_sheets("white-wine.xlsx")[1],
                             col_names = TRUE)
-```
-
-```{r}
 white_wine_data
 ```
 
-```{r}
-```
+
+Next, we look at the excel sheets available by calling the method **excel_sheets()**, and then subsequently use those variable names in place of the current column names using the **colnames()** method.
 
 ```{r}
 white_wine_colnames <- read_excel("white-wine.xlsx", 
@@ -194,13 +203,14 @@ white_wine_colnames <- read_excel("white-wine.xlsx",
 white_wine_colnames
 ```
 
+We can see that the `white_wine_colnames` is not in the best format to assign as colnames for our white wine data. We will need to use the `unlist()` function in order for it assign properly.
+
+While we are doing this, we might as well add our type of wine to our data set.
+
 ```{r}
 colnames(white_wine_data) <- unlist(white_wine_colnames[,1])
 white_wine_data <- white_wine_data |>
   mutate("type" = "White")
-```
-
-```{r}
 white_wine_data
 ```
 
@@ -208,6 +218,8 @@ white_wine_data
 head(white_wine_data, 10) |>
   kable()
 ```
+
+Next, we will add in our red wine data from file of data delimited by a semi-colon. We will also add in the type as red before we combine it with our white win.
 
 ```{r}
 red_wine_data <- read_delim("https://www4.stat.ncsu.edu/~online/datasets/red-wine.csv", delim = ";")
@@ -222,10 +234,14 @@ head(red_wine_data, 10) |>
   kable()
 ```
 
+Now, we want to combine our data using `bind_rows` to get our data into one tibble.
+
 ```{r}
 wine_data <- bind_rows(white_wine_data, red_wine_data)
 wine_data
 ```
+
+We want to filter our data to get the results we want.
 
 ```{r}
 filtered_wine_data <- wine_data |>
@@ -233,7 +249,11 @@ filtered_wine_data <- wine_data |>
   arrange(desc(quality)) |>
   select(contains("acid"), alcohol, type, quality) |>
   group_by(quality) |>
-  mutate(mean_alcohol = mean(alcohol), sd_alcohol = sd(alcohol))
+  mutate(across(
+    c(alcohol),
+    list(mean = mean, sd = sd),
+    .names = "{.col}_{.fn}")
+  )
 filtered_wine_data
 ```
 
@@ -243,6 +263,8 @@ head(filtered_wine_data, 20) |>
 ```
 
 ## Task 4: Database Practice
+
+First, we connect to the Lahman SQLite database and inspect the available tables. We then demonstrate querying the database both through the tbl() interface and by writing raw SQL statements directly.
 
 ```{r}
 con <- dbConnect(RSQLite::SQLite(), "lahman.db")
@@ -264,6 +286,8 @@ WHERE (`yearID` = 2015.0)")
   kable()
 ```
 
+Next, we query the HallOfFame table and return only those players who were inducted. The results are restricted to the columns of interest.
+
 ```{r}
 Hall_of_Fame <- tbl(con,"HallofFame") |>
   filter(inducted == "Y") |>
@@ -276,6 +300,8 @@ Hall_of_Fame |>
 head(Hall_of_Fame) |>
   kable()
 ```
+
+We then join the HallOfFame and People tables using the shared playerID column. This allows us to add each player's first and last name to the Hall of Fame records.
 
 ```{r}
 Hall_of_Fame_w_Names <- left_join(Hall_of_Fame,
@@ -290,6 +316,8 @@ Hall_of_Fame_w_Names
 head(Hall_of_Fame_w_Names) |>
   kable()
 ```
+
+Next, we join the HallOfFame and Managers tables in order to identify Hall of Fame inductees who also managed teams. We then group by manager, calculate their career totals, and compute their overall win percentage.
 
 ```{r}
 Manager_WinPer_Data <- tbl(con, "Managers") |>
@@ -308,6 +336,8 @@ Manager_WinPer_Data
 head(Manager_WinPer_Data, 20) |>
   kable()
 ```
+
+Finally, we combine the Hall of Fame player information with the managerial statistics. This produces a single table containing each Hall of Fame manager's induction information, name, career managerial totals, and win percentage.
 
 ```{r}
 Hall_of_Fame_Managers <- inner_join(Hall_of_Fame_w_Names, 
